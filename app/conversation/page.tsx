@@ -17,7 +17,7 @@ export default function Home() {
   const isOpenForConversation = useSelector(
     (state: RootState) => state.sidebar.isOpenForConversation
   );
-  const { prompts, conversationId } = useSelector((state: RootState) => state.conversation);
+  const { prompts } = useSelector((state: RootState) => state.conversation);
 
   useEffect(() => {
     const fetchPrompts = async () => {
@@ -74,7 +74,7 @@ export default function Home() {
       }
     };
     fetchPrompts();
-  }, [conversationId, dispatch]);
+  }, [dispatch]);
 
   if (isLoading)
     return (

@@ -196,7 +196,7 @@ const Solution = ({solutions}: {solutions: string[]})=> {
   }
 
   return (
-    <div className="mt-8">
+    <div className="mt-8 w-[700px]">
       <div
         ref={solutionContainerRef}
         className="py-0 px-4 rounded-md bg-[#0F1B2698] bg-opacity-50 overflow-y-auto"
