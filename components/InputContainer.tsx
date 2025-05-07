@@ -159,7 +159,7 @@ const InputContainer = () => {
 
       // Check current route and navigate accordingly
       const currentPath = window.location.pathname;
-      if (currentPath === "/message") {
+      if (currentPath.includes("/message")) {
         router.push("/conversation");
       }
     } catch (error) {
