@@ -27,6 +27,7 @@ export function Sidebar({ isOpen, handleClick }: { isOpen: boolean, handleClick:
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const router = useRouter();
   const dispatch = useDispatch();
+  const conversationId = useSelector((state: RootState) => state.conversation.conversationId);
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -78,7 +79,7 @@ export function Sidebar({ isOpen, handleClick }: { isOpen: boolean, handleClick:
     };
 
     fetchConversations();
-  }, [router]);
+  }, [router, conversationId]);
 
   return (
     <div className={`h-screen bg-gray-800 text-white transition-all duration-300 ease-in-out flex flex-col justify-between ${isOpen ? 'w-64 p-4' : 'w-0 overflow-hidden py-4'}`}>

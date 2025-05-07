@@ -125,7 +125,7 @@ export default function Home() {
           </div>
         </main>
         <div className="absolute bottom-4 left-0 w-full">
-          <InputContainer />
+          <InputContainer type="conversation" />
         </div>
       </div>
     </div>

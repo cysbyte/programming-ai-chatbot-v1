@@ -32,7 +32,7 @@ export default function Home() {
             Design, build, and deploy beautiful fullstack web apps on autopilot.
             Prompt a single URL to get started.
           </p>
-          <InputContainer />
+          <InputContainer type="message" />
         </div>
       </main>
     </div>

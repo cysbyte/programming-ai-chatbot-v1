@@ -17,9 +17,10 @@ import { setPrompts } from "@/store/conversationSlice";
 import { Message } from "@/lib/ai-service";
 import { useRouter } from "next/navigation";
 
-const InputContainer = () => {
+const InputContainer = ({type}: {type: "message" | "conversation"}) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const processingRef = useRef(false);
   const dispatch = useDispatch();
   const images = useSelector((state: RootState) => state.conversation.images);
   const [error, setError] = useState<string>("");
@@ -76,10 +77,12 @@ const InputContainer = () => {
   const handleStart = async () => {
     debugger;
     try {
+      processingRef.current = true;
       dispatch(setIsProcessing(true));
       // Validate user input
       if (!userInput.trim()) {
         setError("Please enter a message");
+        processingRef.current = false;
         dispatch(setIsProcessing(false));
         return;
       }
@@ -105,6 +108,8 @@ const InputContainer = () => {
       ];
       formData.append("prompt", JSON.stringify(newPrompt));
 
+      debugger
+
       const response = await fetch("/api/conversations", {
         method: "POST",
         headers: {
@@ -114,7 +119,8 @@ const InputContainer = () => {
         body: formData,
       });
 
-      if(!isProcessing) {
+      debugger;
+      if(!processingRef.current) {
          return;
       }
 
@@ -138,6 +144,7 @@ const InputContainer = () => {
           localStorage.removeItem("refreshToken");
           // Redirect to signin page
           router.push("/");
+          processingRef.current = false;
           dispatch(setIsProcessing(false));
           return;
         }
@@ -155,11 +162,11 @@ const InputContainer = () => {
       dispatch(setConversationId(data.conversationId));
       localStorage.setItem("conversationId", data.conversationId);
       setError("");
+      processingRef.current = false;
       dispatch(setIsProcessing(false));
 
-      // Check current route and navigate accordingly
-      const currentPath = window.location.pathname;
-      if (currentPath.includes("/message")) {
+      // Navigate to conversation page after successful API call
+      if(type === "message") {
         router.push("/conversation");
       }
     } catch (error) {
@@ -168,6 +175,7 @@ const InputContainer = () => {
         error instanceof Error ? error.message : "Failed to create conversation"
       );
     } finally {
+      processingRef.current = false;
       dispatch(setIsProcessing(false));
     }
   };
@@ -180,6 +188,7 @@ const InputContainer = () => {
   };
 
   const handleStop = () => {
+    processingRef.current = false;
     dispatch(setIsProcessing(false));
   };
 
