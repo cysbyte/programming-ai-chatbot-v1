@@ -2,6 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { Message } from '@/lib/ai-service';
 
+// Safely get conversationId from localStorage
+const getInitialConversationId = () => {
+  if (typeof window !== 'undefined') {
+    return localStorage.getItem("conversationId") || "";
+  }
+  return "";
+};
+
 interface ConversationState {
   images: string[];
   userInput: string;
@@ -14,7 +22,7 @@ interface ConversationState {
 const initialState: ConversationState = {
   images: [],
   userInput: "",
-  conversationId: "",
+  conversationId: getInitialConversationId(),
   round: 0,
   prompts: [],
   isProcessing: false,

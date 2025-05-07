@@ -17,7 +17,15 @@ export default function Home() {
   const isOpenForConversation = useSelector(
     (state: RootState) => state.sidebar.isOpenForConversation
   );
-  const { prompts } = useSelector((state: RootState) => state.conversation);
+  const { prompts, conversationId } = useSelector((state: RootState) => state.conversation);
+
+  // Set conversationId from localStorage after mount
+  useEffect(() => {
+    const conversationId = localStorage.getItem("conversationId");
+    if (conversationId) {
+      dispatch(setConversationId(conversationId));
+    }
+  }, [dispatch]);
 
   useEffect(() => {
     const fetchPrompts = async () => {
@@ -74,7 +82,7 @@ export default function Home() {
       }
     };
     fetchPrompts();
-  }, [dispatch]);
+  }, [dispatch, conversationId]);
 
   if (isLoading)
     return (

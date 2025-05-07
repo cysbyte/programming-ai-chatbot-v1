@@ -107,7 +107,9 @@ export function Sidebar({ isOpen, handleClick }: { isOpen: boolean, handleClick:
                     dispatch(setConversationId(conversation.id));
                     router.push("/conversation");
                   }}
-                  className="w-full text-left text-sm text-gray-300 px-4 py-2 hover:bg-gray-700 rounded truncate cursor-pointer"
+                  className={`w-full text-left text-sm text-gray-300 px-4 py-2 hover:bg-gray-700 rounded truncate cursor-pointer ${
+                    conversation.id === conversationId ? 'bg-gray-700' : ''
+                  }`}
                 >
                   {conversation.userInput}
                 </button>
